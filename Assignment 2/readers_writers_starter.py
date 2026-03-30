@@ -58,14 +58,12 @@ class ReadersWritersMonitor:
             # TODO: Replace 'pass' with your logic
 
             # 2. Wait while a writer is active
-            while self.active_writers > 0:
+            while self.active_writers > 0: # if readers want to read content, they must wait until the writers finish writing
                 print("Now there is an active writer, reader must wait")
-                self.condition.wait()
-                print("Now there is no active writer, reader can proceed")
+                self.condition.wait() # wait until all the active writers finish writing
             
             # 3. Increase active_readers
-            self.active_readers += 1
-
+            self.active_readers += 1 # Recode the active readers number, avoid witers write when readers reading
             # 4. Print a log message
             print(f"Reader {reader_id} started reading. Active readers: {self.active_readers}")
 
@@ -82,14 +80,14 @@ class ReadersWritersMonitor:
             # TODO: Replace 'pass' with your logic
             
             # 1. Decrease active_readers
-            self.active_readers -= 1
+            self.active_readers -= 1 # After finish reading, decrease the active readers number, avoid writers wait forever when there are always readers reading
 
             # 2. Print a log message
             print(f"Reader {reader_id} finished reading. Active readers: {self.active_readers}")
 
             # 3. Wake waiting threads if this was the last reader
-            if self.active_readers == 0:
-                self.condition.notify_all()
+            if self.active_readers == 0: # if there is no active reader, wake waiting threads, avoid writers wait forever
+                self.condition.notify_all() # Wake waiting threads, if someone was locked by self.confition.wait(), they can continus to execute this while loop(return to the start of the while loop) and check the condition again, if the condition is satisfied, they can proceed, otherwise they will wait again
 
     def start_write(self, writer_id: int) -> None:
         """
@@ -112,8 +110,7 @@ class ReadersWritersMonitor:
             while self.active_readers > 0 or self.active_writers > 0:
                 print("Now there are active readers/writers, writer must wait")
                 self.condition.wait()
-                print("Now there are no active readers/writers, writer can proceed")
-                
+
             # 3. Update counters
             self.waiting_writers -= 1
             self.active_writers += 1
@@ -208,7 +205,7 @@ def main() -> None:
         Reader(reader_id=2, monitor=monitor),
         Reader(reader_id=3, monitor=monitor),
         Reader(reader_id=4, monitor=monitor)
-        
+
     ]
     
     #TODO: Create at least 2 writer threads.
