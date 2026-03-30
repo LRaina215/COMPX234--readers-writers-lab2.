@@ -59,7 +59,9 @@ class ReadersWritersMonitor:
 
             # 2. Wait while a writer is active
             while self.active_writers > 0:
+                print("Now there is an active writer, reader must wait")
                 self.condition.wait()
+                print("Now there is no active writer, reader can proceed")
             
             # 3. Increase active_readers
             self.active_readers += 1
@@ -108,7 +110,9 @@ class ReadersWritersMonitor:
 
             # 2. Wait while active_readers > 0 or active_writers > 0
             while self.active_readers > 0 or self.active_writers > 0:
+                print("Now there are active readers/writers, writer must wait")
                 self.condition.wait()
+                print("Now there are no active readers/writers, writer can proceed")
                 
             # 3. Update counters
             self.waiting_writers -= 1
@@ -207,7 +211,9 @@ def main() -> None:
     #TODO: Create at least 2 writer threads.
     writers = [
         Writer(writer_id=1, monitor=monitor),
-        Writer(writer_id=2, monitor=monitor)
+        Writer(writer_id=2, monitor=monitor),
+        Writer(writer_id=3, monitor=monitor),
+        Writer(writer_id=4, monitor=monitor)
     ]
 
     all_threads = readers + writers
