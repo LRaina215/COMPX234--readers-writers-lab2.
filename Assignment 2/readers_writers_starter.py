@@ -134,6 +134,7 @@ class ReadersWritersMonitor:
         """
         with self.condition:
             # TODO: Replace 'pass' with your logic
+
             # 1. Decrease active_writers
             self.active_writers -= 1
 
@@ -205,7 +206,9 @@ def main() -> None:
     readers = [
         Reader(reader_id=1, monitor=monitor),
         Reader(reader_id=2, monitor=monitor),
-        Reader(reader_id=3, monitor=monitor)
+        Reader(reader_id=3, monitor=monitor),
+        Reader(reader_id=4, monitor=monitor)
+        
     ]
     
     #TODO: Create at least 2 writer threads.
