@@ -1,34 +1,3 @@
-# COMPX234 Lab 2: Readers-Writers Problem
-
-**Name: Junhui Luan**
-
-**Student Number: 20243007059**
-
-## 1. Design Explanation
-
-This program implements a monitor-style solution for the classic Readers-Writers problem using Python's `threading.Condition` and `threading.Lock`. 
-
-There are 4 Writers and 4 Readers initialized.
-
-The monitor enforces the following synchronization rules:
-
-**Multiple Readers:** Multiple reader threads can access the shared resource simultaneously as long as there is no active writer (`active_writers == 0`).
-
-**Exclusive Writers:** A writer thread must wait if there are any active readers (`active_readers > 0`) or another active writer (`active_writers > 0`).
-
-**Condition Checking:** `while` loops are used before `wait()` to safely re-check conditions and prevent spurious wakeups.
-
-**Thread Signaling:** `notify_all()` is used in `end_read` (when the last reader finishes) and `end_write` to wake up waiting threads and allow them to re-evaluate the shared state.
-
-## 2. How to Run the Program
-Ensure you have Python 3 installed. Navigate to the directory containing the file and run the following command in your terminal:
-
-```bash
-python3 readers_writers_starter.py
-```
-
-## 3. Sample Output
-```plaintext
 Reader 2 wants to read
 Reader 2 started reading. Active readers: 1
 Reader 2 is READING
@@ -150,4 +119,3 @@ Writer 3 is WRITING
 Writer 3 finished writing. Active writers: 0
 Writer 3 finished writing
 !!!Simulation complete. All readers and writers have finished!!!
-```
