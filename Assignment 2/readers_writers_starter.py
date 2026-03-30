@@ -151,6 +151,13 @@ def main() -> None:
     - Join all threads.
     - Print a final message when the simulation is complete.
     """
+    # Write readers and writers
+    reader1 = Reader(reader_id=1, monitor=ReadersWritersMonitor())
+    reader2 = Reader(reader_id=2, monitor=ReadersWritersMonitor())
+    reader3 = Reader(reader_id=3, monitor=ReadersWritersMonitor())
+    writer1 = Writer(writer_id=1, monitor=ReadersWritersMonitor())
+    writer2 = Writer(writer_id=2, monitor=ReadersWritersMonitor())
+
     random.seed(42)
 
     monitor = ReadersWritersMonitor()
