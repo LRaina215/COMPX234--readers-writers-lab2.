@@ -102,7 +102,22 @@ class ReadersWritersMonitor:
         """
         with self.condition:
             # TODO: Replace 'pass' with your logic
-            pass
+            
+            # 1. Increase waiting_writers
+            self.waiting_writers += 1
+
+            # 2. Wait while active_readers > 0 or active_writers > 0
+            while self.active_readers > 0 or self.active_writers > 0:
+                self.condition.wait()
+                
+            # 3. Update counters
+            self.waiting_writers -= 1
+            self.active_writers += 1
+
+            # 4. Print a log message
+            print(f"Writer {writer_id} started writing. Active writers: {self.active_writers}")
+
+                
 
     def end_write(self, writer_id: int) -> None:
         """
@@ -115,7 +130,14 @@ class ReadersWritersMonitor:
         """
         with self.condition:
             # TODO: Replace 'pass' with your logic
-            pass
+            # 1. Decrease active_writers
+            self.active_writers -= 1
+
+            # 2. Print a log message
+            print(f"Writer {writer_id} finished writing. Active writers: {self.active_writers}")
+
+            # 3. Wake waiting threads
+            self.condition.notify_all()
 
 # Donot Change this
 class Reader(threading.Thread):
